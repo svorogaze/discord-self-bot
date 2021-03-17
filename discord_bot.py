@@ -137,7 +137,7 @@ async def math(ctx, *, expression):
     """
     Evaluate math expression
 
-    We evaluate expression, then check if len of message > 1999, and then send result or result[:2000] depending on len
+    We evaluate expression, then check if len of message > 2000, and then send result or result[:2000] depending on len
     of message.
 
     Eval is dangerous for public bots, for more info see this article
