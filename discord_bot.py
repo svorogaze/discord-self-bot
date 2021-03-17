@@ -4,6 +4,7 @@ from discord import Embed
 import praw
 from prawcore import NotFound
 import random
+from time import sleep
 
 discord_token = "" # insert your discord token here
 
@@ -342,5 +343,33 @@ async def add_ending(ctx, *, message_ending=''):
     end_of_message = message_ending
     await ctx.send(embed=Embed(description='ending successfully changed'))
 
+
+@client.command()
+async def emojis(ctx):
+    global deleting
+
+    emoji_list = [
+        ':grinning:',
+        ':heart_eyes:',
+        ':rage:',
+        ':hot_face:',
+        ':cold_face:',
+        ':scream:',
+        ':smiling_imp:',
+        ':sunglasses:',
+        ':poop:',
+        ':star_struck:',
+        ':partying_face:',
+        ':exploding_head:',
+        ':kissing_heart:',
+        ':clown:',
+        ':alien:',
+    ]
+
+    for emoji in emoji_list:
+        await ctx.message.edit(content=emoji)
+        sleep(1)
+
+    await ctx.message.delete()
 
 client.run(discord_token, bot=False)
