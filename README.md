@@ -18,3 +18,4 @@ You can be banned for using self-bot, so use at your own risk.
  * server_info
  * change_presence
  * add_ending
+ * emojis
