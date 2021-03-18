@@ -19,3 +19,5 @@ You can be banned for using self-bot, so use at your own risk.
  * change_presence
  * add_ending
  * emojis
+ * cat
+ * horse
