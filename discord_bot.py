@@ -5,10 +5,12 @@ import praw
 from prawcore import NotFound
 import random
 from time import sleep
+import requests
+import os
 
-discord_token = "" # insert your discord token here
+discord_token = ""  # insert your discord token here
 
-reddit = praw.Reddit() # authentication for reddit, for more info see
+reddit = praw.Reddit()  # authentication for reddit, for more info see
 # https://praw.readthedocs.io/en/latest/getting_started/authentication.html
 
 client = commands.Bot(command_prefix='!', self_bot=True)
@@ -371,5 +373,32 @@ async def emojis(ctx):
         sleep(1)
 
     await ctx.message.delete()
+
+
+@client.command()
+async def cat(ctx):
+    image = requests.get('https://thiscatdoesnotexist.com/')
+
+    file = open('cat.jpg', 'wb')
+    file.write(image.content)
+    file.close()
+
+    await ctx.send(file=discord.File('cat.jpg'))
+
+    os.remove('cat.jpg')
+
+
+@client.command()
+async def horse(ctx):
+    image = requests.get('https://thishorsedoesnotexist.com')
+
+    file = open('horse.jpg', 'wb')
+    file.write(image.content)
+    file.close()
+
+    await ctx.send(file=discord.File('horse.jpg'))
+
+    os.remove('horse.jpg')
+
 
 client.run(discord_token, bot=False)
