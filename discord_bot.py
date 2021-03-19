@@ -7,6 +7,7 @@ import random
 from time import sleep
 import requests
 import os
+import datetime
 
 discord_token = ""  # insert your discord token here
 
@@ -400,5 +401,21 @@ async def horse(ctx):
 
     os.remove('horse.jpg')
 
+
+@client.command()
+async def timer(ctx, seconds):
+    seconds = int(seconds)
+    start = datetime.datetime.now()
+    finish = start + datetime.timedelta(seconds=seconds)
+    difference = finish - start
+
+    while difference.total_seconds() > 0:
+        current = datetime.datetime.now()
+        difference = finish - current
+        await ctx.message.edit(embed=Embed(
+            description=f'You have {difference.days} days, {int(difference.total_seconds() // 3600 % 24)} hours, {int(difference.total_seconds() // 60 % 60)} minutes, {difference.seconds % 60} seconds left'))
+        sleep(1)
+
+    await ctx.message.delete()
 
 client.run(discord_token, bot=False)
