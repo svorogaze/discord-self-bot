@@ -349,8 +349,6 @@ async def add_ending(ctx, *, message_ending=''):
 
 @client.command()
 async def emojis(ctx):
-    global deleting
-
     emoji_list = [
         ':grinning:',
         ':heart_eyes:',
@@ -373,11 +371,9 @@ async def emojis(ctx):
         await ctx.message.edit(content=emoji)
         sleep(1)
 
-    await ctx.message.delete()
-
-
 @client.command()
 async def cat(ctx):
+    "Get fake cat photo from 'https://thiscatdoesnotexist.com/'"
     image = requests.get('https://thiscatdoesnotexist.com/')
 
     file = open('cat.jpg', 'wb')
@@ -391,6 +387,7 @@ async def cat(ctx):
 
 @client.command()
 async def horse(ctx):
+    "Get fake horse photo from https://thishorsedoesnotexist.com"
     image = requests.get('https://thishorsedoesnotexist.com')
 
     file = open('horse.jpg', 'wb')
@@ -404,6 +401,7 @@ async def horse(ctx):
 
 @client.command()
 async def person(ctx):
+    "Get fake peson photo from https://thispersondoesnotexist.com"
     image = requests.get('https://thispersondoesnotexist.com/image')
 
     file = open('person.jpg', 'wb')
@@ -417,6 +415,7 @@ async def person(ctx):
 
 @client.command()
 async def timer(ctx, seconds):
+    "Creates messagr-timer and updates it"
     seconds = int(seconds)
     start = datetime.datetime.now()
     finish = start + datetime.timedelta(seconds=seconds)
