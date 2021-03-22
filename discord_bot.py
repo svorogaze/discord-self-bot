@@ -8,6 +8,8 @@ from time import sleep
 import requests
 import os
 import datetime
+import cv2
+
 
 discord_token = ""  # insert your discord token here
 
@@ -371,9 +373,12 @@ async def emojis(ctx):
         await ctx.message.edit(content=emoji)
         sleep(1)
 
+
 @client.command()
 async def cat(ctx):
-    "Get fake cat photo from 'https://thiscatdoesnotexist.com/'"
+    """
+    Get fake cat photo from 'https://thiscatdoesnotexist.com/'
+    """
     image = requests.get('https://thiscatdoesnotexist.com/')
 
     file = open('cat.jpg', 'wb')
@@ -387,7 +392,10 @@ async def cat(ctx):
 
 @client.command()
 async def horse(ctx):
-    "Get fake horse photo from https://thishorsedoesnotexist.com"
+    """
+    Get fake horse photo from https://thishorsedoesnotexist.com
+    """
+
     image = requests.get('https://thishorsedoesnotexist.com')
 
     file = open('horse.jpg', 'wb')
@@ -401,7 +409,9 @@ async def horse(ctx):
 
 @client.command()
 async def person(ctx):
-    "Get fake peson photo from https://thispersondoesnotexist.com"
+    """
+    Get fake peson photo from https://thispersondoesnotexist.com
+    """
     image = requests.get('https://thispersondoesnotexist.com/image')
 
     file = open('person.jpg', 'wb')
@@ -415,7 +425,10 @@ async def person(ctx):
 
 @client.command()
 async def timer(ctx, seconds):
-    "Creates messagr-timer and updates it"
+    """
+    Create messagr-timer and updates it
+    """
+
     seconds = int(seconds)
     start = datetime.datetime.now()
     finish = start + datetime.timedelta(seconds=seconds)
@@ -425,9 +438,32 @@ async def timer(ctx, seconds):
         current = datetime.datetime.now()
         difference = finish - current
         await ctx.message.edit(embed=Embed(
-            description=f'You have {difference.days} days, {int(difference.total_seconds() // 3600 % 24)} hours, {int(difference.total_seconds() // 60 % 60)} minutes, {difference.seconds % 60} seconds left'))
+            description=f'You have {difference.days} days, {int(difference.total_seconds() // 3600 % 24)} hours, '
+                        f'{int(difference.total_seconds() // 60 % 60)} minutes, {difference.seconds % 60} seconds left')
+        )
         sleep(1)
 
     await ctx.message.delete()
+
+
+@client.command()
+async def gray(ctx):
+    """
+    Download image, grayscale it and sen in ctx.channel
+    """
+    message = ctx.message
+    if len(message.attachments) == 1:
+        image = requests.get(message.attachments[0].url)
+
+        file = open('image.jpg', 'wb')
+        file.write(image.content)
+        file.close()
+
+        gray_image = cv2.imread('image.jpg', cv2.IMREAD_GRAYSCALE)
+        cv2.imwrite('image.jpg', gray_image)
+
+        await ctx.send(file=discord.File('image.jpg'))
+
+        os.remove('image.jpg')
 
 client.run(discord_token, bot=False)
