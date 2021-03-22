@@ -113,7 +113,7 @@ async def delete(ctx, how_many_messages_delete):
     """
     global deleting
     deleting = True
-    await ctx.channel.purge(limit=int(how_many_messages_delete))
+    await ctx.channel.purge(limit=int(how_many_messages_delete) + 1)
     deleting = False
 
 
@@ -400,6 +400,19 @@ async def horse(ctx):
     await ctx.send(file=discord.File('horse.jpg'))
 
     os.remove('horse.jpg')
+
+
+@client.command()
+async def person(ctx):
+    image = requests.get('https://thispersondoesnotexist.com/image')
+
+    file = open('person.jpg', 'wb')
+    file.write(image.content)
+    file.close()
+
+    await ctx.send(file=discord.File('person.jpg'))
+
+    os.remove('person.jpg')
 
 
 @client.command()
