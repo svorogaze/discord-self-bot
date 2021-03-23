@@ -24,3 +24,5 @@ You can be banned for using self-bot, so use at your own risk.
  * person
  * timer
  * gray
+ * latency
+ * os
