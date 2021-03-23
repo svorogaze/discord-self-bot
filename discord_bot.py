@@ -9,10 +9,9 @@ import requests
 import os
 import datetime
 import cv2
-
+import platform
 
 discord_token = ""  # insert your discord token here
-
 reddit = praw.Reddit()  # authentication for reddit, for more info see
 # https://praw.readthedocs.io/en/latest/getting_started/authentication.html
 
@@ -449,7 +448,7 @@ async def timer(ctx, seconds):
 @client.command()
 async def gray(ctx):
     """
-    Download image, grayscale it and sen in ctx.channel
+    Download image, grayscale and send it in ctx.channel
     """
     message = ctx.message
     if len(message.attachments) == 1:
@@ -465,5 +464,26 @@ async def gray(ctx):
         await ctx.send(file=discord.File('image.jpg'))
 
         os.remove('image.jpg')
+
+
+@client.command()
+async def latency(ctx):
+    """
+    Get latency of client
+    """
+    await ctx.send(embed=Embed(description=f'Your ping is {round(client.latency * 1000, 2)} ms'))
+
+
+@client.command()
+async def os(ctx):
+    """
+    Display info about your os
+    """
+    embed = Embed(title='OS information')
+    embed.add_field(name='OS', value=platform.system(), inline=False)
+    embed.add_field(name='Release', value=platform.release(), inline=False)
+    embed.add_field(name='Python version', value=platform.python_version(), inline=False)
+    await ctx.send(embed=embed)
+
 
 client.run(discord_token, bot=False)
