@@ -2,6 +2,7 @@ from discord.ext import commands
 import discord
 import os
 import requests
+import googlesearch
 
 
 class Web(commands.Cog):
@@ -53,3 +54,15 @@ class Web(commands.Cog):
         await ctx.send(file=discord.File('person.jpg'))
 
         os.remove('person.jpg')
+
+    @commands.command()
+    async def google(self, ctx, search):
+        """
+        Get the first result of search
+        """
+        result = googlesearch.search(search, num_results=1)
+        await ctx.send(result[0])
+
+
+def setup(bot):
+    bot.add_cog(Web(bot))

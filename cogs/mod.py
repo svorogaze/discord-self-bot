@@ -26,3 +26,7 @@ class Mod(commands.Cog):
 
 
 deleting = False
+
+
+def setup(bot):
+    bot.add_cog(Mod(bot))

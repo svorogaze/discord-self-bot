@@ -42,3 +42,7 @@ class Guild(commands.Cog):
         embed = discord.Embed(description=info_string, title=f'Information about {server}', color=0xd252e3)
         embed.set_image(url=str(icon_url))
         await ctx.send(embed=embed)
+
+
+def setup(bot):
+    bot.add_cog(Guild(bot))

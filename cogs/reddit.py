@@ -84,5 +84,9 @@ def is_existing(subreddit):
     return exists
 
 
-reddit = praw.Reddit()  # authentication for reddit, for more info see
+reddit = praw.Reddit() # authentication for reddit, for more info see
 # https://praw.readthedocs.io/en/latest/getting_started/authentication.html
+
+
+def setup(bot):
+    bot.add_cog(RedditBot(bot))

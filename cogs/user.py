@@ -75,3 +75,7 @@ class User(commands.Cog):
 
         self.end_of_message = message_ending
         await ctx.send(embed=discord.Embed(description='ending successfully changed'))
+
+
+def setup(bot):
+    bot.add_cog(User(bot))

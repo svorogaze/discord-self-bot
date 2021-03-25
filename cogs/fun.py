@@ -146,3 +146,9 @@ class Fun(commands.Cog):
             await ctx.send(file=discord.File('image.jpg'))
 
             os.remove('image.jpg')
+
+
+
+
+def setup(bot):
+    bot.add_cog(Fun(bot))

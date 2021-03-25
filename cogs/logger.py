@@ -3,6 +3,7 @@ import discord
 from .mod import deleting
 import os
 
+
 class Logger(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -62,3 +63,7 @@ class Logger(commands.Cog):
         await ctx.send(embed=discord.Embed(description='Stopped logging, sending logs'))
         await ctx.send(file=discord.File(fp='logs.txt', filename='logs.txt'))
         os.remove('logs.txt')
+
+
+def setup(bot):
+    bot.add_cog(Logger(bot))

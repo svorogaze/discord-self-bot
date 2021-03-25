@@ -1,16 +1,13 @@
 from discord.ext import commands
-from cogs import fun, guild, logger, mod, reddit, user, web
+import os
 
 discord_token = ""  # insert your discord token here
 
 self_bot = commands.Bot(command_prefix='!', self_bot=True)
-self_bot.add_cog(fun.Fun(self_bot))
-self_bot.add_cog(guild.Guild(self_bot))
-self_bot.add_cog(logger.Logger(self_bot))
-self_bot.add_cog(mod.Mod(self_bot))
-self_bot.add_cog(reddit.RedditBot(self_bot))
-self_bot.add_cog(user.User(self_bot))
-self_bot.add_cog(web.Web(self_bot))
+
+for filename in os.listdir('./cogs'):  # get all cogs in cogs
+    if filename.endswith('.py'):
+        self_bot.load_extension(f'cogs.{filename[:-3]}')
 
 
 @self_bot.event
