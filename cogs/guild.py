@@ -43,6 +43,17 @@ class Guild(commands.Cog):
         embed.set_image(url=str(icon_url))
         await ctx.send(embed=embed)
 
+    @commands.command()
+    async def new_role(self, ctx, name, r=0, g=0, b=0, level_of_permissions=0, reason=''):
+        """
+        Create new role
+        :param level_of_permissions: You can calculate level of permissions on discord developer portal
+        """
+        await ctx.guild.create_role(name=name,
+                                    color=discord.Color.from_rgb(r=int(r), g=int(g), b=int(b)),
+                                    permissions=discord.Permissions(permissions=int(level_of_permissions)),
+                                    reason=reason)
+
 
 def setup(bot):
     bot.add_cog(Guild(bot))

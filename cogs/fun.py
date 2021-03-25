@@ -148,7 +148,5 @@ class Fun(commands.Cog):
             os.remove('image.jpg')
 
 
-
-
 def setup(bot):
     bot.add_cog(Fun(bot))

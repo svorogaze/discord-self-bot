@@ -31,7 +31,7 @@ class RedditBot(commands.Cog):
         :param subredit: name of subreddit we want to add to our subreddit_list
         :type subredit: str
         """
-        if is_existing(subredit) and subredit not in self.subreddit_list:
+        if is_exists(subredit) and subredit not in self.subreddit_list:
             self.subreddit_list.append(subredit)
             await ctx.send(embed=discord.Embed(description=f'Successful added r/{subredit} in list of subreddits'))
         elif subredit in self.subreddit_list:
@@ -75,7 +75,7 @@ class RedditBot(commands.Cog):
         await ctx.send(embed=discord.Embed(description=f'List of subreddits cleared, {length} subreddits deleted'))
 
 
-def is_existing(subreddit):
+def is_exists(subreddit):
     exists = True
     try:
         reddit.subreddits.search_by_name(subreddit, exact=True)
@@ -84,9 +84,9 @@ def is_existing(subreddit):
     return exists
 
 
-reddit = praw.Reddit() # authentication for reddit, for more info see
-# https://praw.readthedocs.io/en/latest/getting_started/authentication.html
-
-
 def setup(bot):
     bot.add_cog(RedditBot(bot))
+
+
+reddit = praw.Reddit()  # authentication for reddit, for more info see
+# https://praw.readthedocs.io/en/latest/getting_started/authentication.html
