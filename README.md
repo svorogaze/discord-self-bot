@@ -27,3 +27,4 @@ You can be banned for using self-bot, so use at your own risk.
  * latency
  * os
  * google
+ * new_role
