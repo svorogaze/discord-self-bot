@@ -6,6 +6,7 @@ import random
 from time import sleep
 import datetime
 import os
+import googletrans
 
 MAGIC_BALL_ANSWERS = ['It is certain', 'It is decidedly so', 'Without a doubt', 'Yes — definitely',
                       'You may rely on it', 'As I see it, yes', 'Most likely', 'Outlook good', 'Signs point to yes',
@@ -146,6 +147,15 @@ class Fun(commands.Cog):
             await ctx.send(file=discord.File('image.jpg'))
 
             os.remove('image.jpg')
+
+    @commands.command()
+    async def translate(self, ctx, *, text):
+        """
+        Translate word to english
+        """
+        translator = googletrans.Translator()
+        result = translator.translate(text=text)
+        await ctx.send(embed=discord.Embed(description=f'{text} ({result.src}) --> {result.text} ({result.dest})'))
 
 
 def setup(bot):
