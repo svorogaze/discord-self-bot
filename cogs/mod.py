@@ -5,6 +5,7 @@ from discord.ext import commands
 class Mod(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.list_of_bad_words = []
 
     @commands.command()
     async def delete(self, ctx, how_many_messages_delete):
@@ -24,8 +25,21 @@ class Mod(commands.Cog):
         await ctx.channel.purge(limit=int(how_many_messages_delete) + 1)
         deleting = False
 
+    @commands.command()
+    async def add_bad_word(self, ctx, bad_word):
+        self.list_of_bad_words.append(bad_word)
+
+    @commands.Cog.listener()
+    async def on_message(self, message):
+        if message.author != self.bot.user:
+            for bad_word in self.list_of_bad_words:
+                if bad_word in message.content:
+                    await message.reply(
+                        embed=discord.Embed(description=f"Hey, we don't say {bad_word} here", color=WARNING_COLOR))
+
 
 deleting = False
+WARNING_COLOR = 0xe81031
 
 
 def setup(bot):
