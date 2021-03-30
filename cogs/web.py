@@ -3,6 +3,7 @@ import discord
 import os
 import requests
 import googlesearch
+import random
 
 
 class Web(commands.Cog):
@@ -56,9 +57,24 @@ class Web(commands.Cog):
         os.remove('person.jpg')
 
     @commands.command()
+    async def waifu(self, ctx):
+        """
+        This site generate image link like this www.thiswaifudoesnotexist.net/example-' + id + '.jpg'
+        id is random number from 0 to 100000
+        """
+        image = requests.get(f'https://www.thiswaifudoesnotexist.net/example-{random.randint(0, 100000)}.jpg')
+        file = open('waifu.jpg', 'wb')
+        file.write(image.content)
+        file.close()
+
+        await ctx.send(file=discord.File('waifu.jpg'))
+
+        os.remove('waifu.jpg')
+
+    @commands.command()
     async def google(self, ctx, search):
         """
-        Get the first result of search
+        Get the first result of google search
         """
         result = googlesearch.search(search, num_results=1)
         await ctx.send(result[0])
