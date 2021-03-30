@@ -30,3 +30,4 @@ You can be banned for using self-bot, so use at your own risk.
  * new_role
  * translate
  * add_bad_word
+ * waifu
