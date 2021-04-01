@@ -117,6 +117,33 @@ class Web(commands.Cog):
         await save_send_and_delete(image=image, file_name='sky', ctx=ctx)
 
     @commands.command()
+    async def vessel(self, ctx):
+        """
+        Get fake vessel from https://thisvesseldoesnotexist
+        Link to image is like this https://thisvesseldoesnotexist.s3-us-west-2.amazonaws.com/public/v2/fakes/0009999.jpg
+        """
+        image_link = f"https://thisvesseldoesnotexist.s3-us-west-2.amazonaws.com/public/v2/fakes/{'{:0>7d}'.format(random.randint(1, 20000))}.jpg"
+        image = requests.get(image_link)
+        await save_send_and_delete(image=image, file_name='vessel', ctx=ctx)
+
+    @commands.command()
+    async def startup(self, ctx):
+        """
+        Get fake startup from https://thisstartupdoesnotexist.com/
+        """
+        site = requests.get('https://thisstartupdoesnotexist.com/')
+        bs = BeautifulSoup(site.text, 'html.parser')
+
+        startup = bs.find('h1', class_='theme-title logo-font')
+        slogan = bs.find('span', class_='sub-title')
+
+        embed = discord.Embed()
+        embed.add_field(name='startup: ', value=startup.contents[0], inline=False)
+        embed.add_field(name='slogan: ', value=slogan.contents[0], inline=False)
+
+        await ctx.send(embed=embed)
+
+    @commands.command()
     async def google(self, ctx, search):
         """
         Get the first result of google search
