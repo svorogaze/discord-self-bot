@@ -4,6 +4,8 @@ import os
 import requests
 import googlesearch
 import random
+from bs4 import BeautifulSoup
+import base64
 
 
 class Web(commands.Cog):
@@ -17,13 +19,7 @@ class Web(commands.Cog):
         """
         image = requests.get('https://thiscatdoesnotexist.com/')
 
-        file = open('cat.jpg', 'wb')
-        file.write(image.content)
-        file.close()
-
-        await ctx.send(file=discord.File('cat.jpg'))
-
-        os.remove('cat.jpg')
+        await save_send_and_delete(image=image, file_name='cat', ctx=ctx)
 
     @commands.command()
     async def horse(self, ctx):
@@ -33,43 +29,92 @@ class Web(commands.Cog):
 
         image = requests.get('https://thishorsedoesnotexist.com')
 
-        file = open('horse.jpg', 'wb')
-        file.write(image.content)
-        file.close()
-
-        await ctx.send(file=discord.File('horse.jpg'))
-
-        os.remove('horse.jpg')
+        await save_send_and_delete(image=image, file_name='horse', ctx=ctx)
 
     @commands.command()
     async def person(self, ctx):
         """
-        Get fake peson photo from https://thispersondoesnotexist.com
+        Get fake person photo from https://thispersondoesnotexist.com
         """
         image = requests.get('https://thispersondoesnotexist.com/image')
 
-        file = open('person.jpg', 'wb')
-        file.write(image.content)
-        file.close()
-
-        await ctx.send(file=discord.File('person.jpg'))
-
-        os.remove('person.jpg')
+        await save_send_and_delete(image=image, file_name='person', ctx=ctx)
 
     @commands.command()
     async def waifu(self, ctx):
         """
+        Get fake waifu from https://www.thiswaifudoesnotexist.net
         This site generate image link like this www.thiswaifudoesnotexist.net/example-' + id + '.jpg'
         id is random number from 0 to 100000
         """
+
         image = requests.get(f'https://www.thiswaifudoesnotexist.net/example-{random.randint(0, 100000)}.jpg')
-        file = open('waifu.jpg', 'wb')
-        file.write(image.content)
-        file.close()
+        await save_send_and_delete(image=image, file_name='waifu', ctx=ctx)
 
-        await ctx.send(file=discord.File('waifu.jpg'))
+    @commands.command()
+    async def art(self, ctx):
+        """
+        Get fake art from https://thisartworkdoesnotexist.com/
+        """
+        image = requests.get('https://thisartworkdoesnotexist.com')
+        await save_send_and_delete(image=image, file_name='art', ctx=ctx)
 
-        os.remove('waifu.jpg')
+    @commands.command()
+    async def word(self, ctx):
+        """
+        Get fake word from https://www.thisworddoesnotexist.com/
+        """
+        site = requests.get('https://www.thisworddoesnotexist.com')
+        bs = BeautifulSoup(site.text, 'html.parser')
+
+        word = bs.find('div', id='definition-word')
+        meaning = bs.find('div', id='definition-definition')
+
+        embed = discord.Embed()
+        embed.add_field(name='word: ', value=word.contents[0], inline=False)
+        embed.add_field(name='meaning: ', value=meaning.contents[0], inline=False)
+
+        await ctx.send(embed=embed)
+
+    @commands.command()
+    async def eye(self, ctx):
+        """
+        Get fake eye from https://thiseyedoesnotexist.com
+        """
+        image = requests.get(
+            f"https://thiseyedoesnotexist.com/{get_static_link_to_img('https://thiseyedoesnotexist.com/random')}")
+
+        await save_send_and_delete(image=image, file_name='eye', ctx=ctx)
+
+    @commands.command()
+    async def mp(self, ctx):
+        """
+        Get fake eye from https://vole.wtf/this-mp-does-not-exist/
+        This site has hardcoded 649 images, bruh
+        """
+        image = requests.get(f'https://vole.wtf/this-mp-does-not-exist/mp/mp00{random.randint(0, 649)}.jpg')
+
+        await save_send_and_delete(image=image, file_name='mp', ctx=ctx)
+
+    @commands.command()
+    async def city(self, ctx):
+        """
+        Get fake city from http://thiscitydoesnotexist.com/
+        """
+        image = requests.get(
+            f"http://thiscitydoesnotexist.com/{get_static_link_to_img('http://thiscitydoesnotexist.com/')}")
+        await save_send_and_delete(image=image, file_name='city', ctx=ctx)
+
+    @commands.command()
+    async def sky(self, ctx):
+        """
+        Get fake sky from https://arthurfindelair.com/thisnightskydoesnotexist/
+        Link to image is like this https://firebasestorage.googleapis.com/v0/b/thisnightskydoesnotexist.appspot.com/o/images%2Fseed0001.jpg?alt=media
+        """
+        image_link = f"https://firebasestorage.googleapis.com/v0/b/thisnightskydoesnotexist.appspot.com/o/images%2Fseed" \
+                     f"{'{:0>4d}'.format(random.randint(1, 5000))}.jpg?alt=media"
+        image = requests.get(image_link)
+        await save_send_and_delete(image=image, file_name='sky', ctx=ctx)
 
     @commands.command()
     async def google(self, ctx, search):
@@ -82,3 +127,21 @@ class Web(commands.Cog):
 
 def setup(bot):
     bot.add_cog(Web(bot))
+
+
+def get_static_link_to_img(site_name):
+    site = requests.get(site_name)
+    bs = BeautifulSoup(site.text, 'html.parser')
+
+    static_link_to_image = bs.find('img')['src']
+    return static_link_to_image
+
+
+async def save_send_and_delete(image, file_name, ctx):
+    file = open(f'{file_name}.jpg', 'wb')
+    file.write(image.content)
+    file.close()
+
+    await ctx.send(file=discord.File(f'{file_name}.jpg'))
+
+    os.remove(f'{file_name}.jpg')

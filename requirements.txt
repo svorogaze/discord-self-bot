@@ -1,7 +1,9 @@
 discord~=1.0.1
-praw~=7.1.0
-prawcore~=1.5.0
-requests~=2.24.0
+praw==7.2.0
+prawcore==2.0.0
+requests==2.25.1
 opencv-python~=4.5.1.48
 googlesearch-python~=2020.0.2
 googletrans~=3.1.0a0
+bs4~=0.0.1
+beautifulsoup4~=4.9.1
