@@ -37,3 +37,5 @@ You can be banned for using self-bot, so use at your own risk.
  * mp
  * city
  * sky
+ * vessel
+ * startup
