@@ -31,3 +31,9 @@ You can be banned for using self-bot, so use at your own risk.
  * translate
  * add_bad_word
  * waifu
+ * art
+ * word
+ * eye
+ * mp
+ * city
+ * sky
