@@ -5,6 +5,7 @@ import requests
 import googlesearch
 import random
 from bs4 import BeautifulSoup
+import re
 
 
 class Web(commands.Cog):
@@ -48,6 +49,7 @@ class Web(commands.Cog):
         """
 
         image = requests.get(f'https://www.thiswaifudoesnotexist.net/example-{random.randint(0, 100000)}.jpg')
+
         await save_send_and_delete(image=image, file_name='waifu', ctx=ctx)
 
     @commands.command()
@@ -56,6 +58,7 @@ class Web(commands.Cog):
         Get fake art from https://thisartworkdoesnotexist.com/
         """
         image = requests.get('https://thisartworkdoesnotexist.com')
+
         await save_send_and_delete(image=image, file_name='art', ctx=ctx)
 
     @commands.command()
@@ -63,8 +66,7 @@ class Web(commands.Cog):
         """
         Get fake word from https://www.thisworddoesnotexist.com/
         """
-        site = requests.get('https://www.thisworddoesnotexist.com')
-        bs = BeautifulSoup(site.text, 'html.parser')
+        bs = create_bs('https://www.thisworddoesnotexist.com/')
 
         word = bs.find('div', id='definition-word')
         meaning = bs.find('div', id='definition-definition')
@@ -89,7 +91,7 @@ class Web(commands.Cog):
     async def mp(self, ctx):
         """
         Get fake eye from https://vole.wtf/this-mp-does-not-exist/
-        This site has hardcoded 649 images, bruh
+        This site has hardcoded 649 images into html, bruh
         """
         image = requests.get(f'https://vole.wtf/this-mp-does-not-exist/mp/mp00{random.randint(0, 649)}.jpg')
 
@@ -102,6 +104,7 @@ class Web(commands.Cog):
         """
         image = requests.get(
             f"http://thiscitydoesnotexist.com/{get_static_link_to_img('http://thiscitydoesnotexist.com/')}")
+
         await save_send_and_delete(image=image, file_name='city', ctx=ctx)
 
     @commands.command()
@@ -113,6 +116,7 @@ class Web(commands.Cog):
         image_link = f"https://firebasestorage.googleapis.com/v0/b/thisnightskydoesnotexist.appspot.com/o/images%2Fseed" \
                      f"{'{:0>4d}'.format(random.randint(1, 5000))}.jpg?alt=media"
         image = requests.get(image_link)
+
         await save_send_and_delete(image=image, file_name='sky', ctx=ctx)
 
     @commands.command()
@@ -123,6 +127,7 @@ class Web(commands.Cog):
         """
         image_link = f"https://thisvesseldoesnotexist.s3-us-west-2.amazonaws.com/public/v2/fakes/{'{:0>7d}'.format(random.randint(1, 20000))}.jpg"
         image = requests.get(image_link)
+
         await save_send_and_delete(image=image, file_name='vessel', ctx=ctx)
 
     @commands.command()
@@ -130,8 +135,7 @@ class Web(commands.Cog):
         """
         Get fake startup from https://thisstartupdoesnotexist.com/
         """
-        site = requests.get('https://thisstartupdoesnotexist.com/')
-        bs = BeautifulSoup(site.text, 'html.parser')
+        bs = create_bs('https://thisstartupdoesnotexist.com/')
 
         startup = bs.find('h1', class_='theme-title logo-font')
         slogan = bs.find('span', class_='sub-title')
@@ -145,7 +149,7 @@ class Web(commands.Cog):
     @commands.command()
     async def fu_homer(self, ctx):
         """
-        Get fucked up homer from https://www.thisfuckeduphomerdoesnotexist.com/
+        Get a fucked up homer from https://www.thisfuckeduphomerdoesnotexist.com/
         """
         image = requests.get(get_static_link_to_img('https://www.thisfuckeduphomerdoesnotexist.com/'))
         await save_send_and_delete(image=image, file_name='fu_homer', ctx=ctx)
@@ -155,20 +159,30 @@ class Web(commands.Cog):
         """
         Get name of a fake snack from https://thissnackdoesnotexist.com/
         """
-        site = requests.get('https://thissnackdoesnotexist.com/')
-        bs = BeautifulSoup(site.text, 'html.parser')
+        bs = create_bs('https://thissnackdoesnotexist.com/')
 
         snack_name = bs.find(name='h1', class_="snack-description")
 
         await ctx.send(snack_name.contents[0])
 
     @commands.command()
-    async def google(self, ctx, search):
+    async def google(self, ctx, *, search):
         """
         Get the first result of google search
         """
         result = googlesearch.search(search, num_results=1)
         await ctx.send(result[0])
+
+    @commands.command()
+    async def youtube(self, ctx, *, search):
+        """
+        Get first video from youtube search
+        """
+        site = requests.get(f"https://www.youtube.com/results?search_query={'+'.join(search.split())}")
+
+        link_to_video = re.search(pattern='/watch\\?v=[\\w]+', string=site.text)
+
+        await ctx.send(f'https://www.youtube.com{link_to_video.group()}')
 
 
 def setup(bot):
@@ -191,3 +205,9 @@ async def save_send_and_delete(image, file_name, ctx):
     await ctx.send(file=discord.File(f'{file_name}.jpg'))
 
     os.remove(f'{file_name}.jpg')
+
+
+def create_bs(link_to_site):
+    site = requests.get(link_to_site)
+    bs = BeautifulSoup(site.text, 'html.parser')
+    return bs
