@@ -41,3 +41,4 @@ You can be banned for using self-bot, so use at your own risk.
  * startup
  * snack
  * fu_homer
+ * youtube
