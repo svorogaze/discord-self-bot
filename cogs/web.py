@@ -5,7 +5,6 @@ import requests
 import googlesearch
 import random
 from bs4 import BeautifulSoup
-import base64
 
 
 class Web(commands.Cog):
@@ -142,6 +141,26 @@ class Web(commands.Cog):
         embed.add_field(name='slogan: ', value=slogan.contents[0], inline=False)
 
         await ctx.send(embed=embed)
+
+    @commands.command()
+    async def fu_homer(self, ctx):
+        """
+        Get fucked up homer from https://www.thisfuckeduphomerdoesnotexist.com/
+        """
+        image = requests.get(get_static_link_to_img('https://www.thisfuckeduphomerdoesnotexist.com/'))
+        await save_send_and_delete(image=image, file_name='fu_homer', ctx=ctx)
+
+    @commands.command()
+    async def snack(self, ctx):
+        """
+        Get name of a fake snack from https://thissnackdoesnotexist.com/
+        """
+        site = requests.get('https://thissnackdoesnotexist.com/')
+        bs = BeautifulSoup(site.text, 'html.parser')
+
+        snack_name = bs.find(name='h1', class_="snack-description")
+
+        await ctx.send(snack_name.contents[0])
 
     @commands.command()
     async def google(self, ctx, search):
