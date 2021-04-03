@@ -1,7 +1,8 @@
-from discord.ext import commands
 import discord
 import praw
+from discord.ext import commands
 from prawcore import NotFound
+from decouple import config
 
 
 class RedditBot(commands.Cog):
@@ -88,5 +89,9 @@ def setup(bot):
     bot.add_cog(RedditBot(bot))
 
 
-reddit = praw.Reddit()  # authentication for reddit, for more info see
+reddit = praw.Reddit(client_id=config('CLIENT_ID'),
+                     client_secret=config('CLIENT_SECRET'),
+                     password=config('REDDIT_PASSWORD'),
+                     user_agent=config('USER_AGENT'),
+                     username=config("REDDIT_USERNAME"))  # authentication for reddit, for more info see
 # https://praw.readthedocs.io/en/latest/getting_started/authentication.html

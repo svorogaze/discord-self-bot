@@ -180,9 +180,9 @@ class Web(commands.Cog):
         """
         site = requests.get(f"https://www.youtube.com/results?search_query={'+'.join(search.split())}")
 
-        link_to_video = re.search(pattern='/watch\\?v=[\\w]+', string=site.text)
+        link_to_video = re.search('/watch\\?v=[\\w]+', site.text)
 
-        await ctx.send(f'https://www.youtube.com{link_to_video.group()}')
+        await ctx.send(f'First result of search on youtube \n https://www.youtube.com{link_to_video.group()}')
 
 
 def setup(bot):

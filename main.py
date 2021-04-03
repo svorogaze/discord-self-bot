@@ -1,7 +1,8 @@
 from discord.ext import commands
+from decouple import config
 import os
 
-discord_token = ""  # insert your discord token here
+discord_token = config('DISCORD_TOKEN')  # insert your discord token here
 
 self_bot = commands.Bot(command_prefix='!', self_bot=True)
 
