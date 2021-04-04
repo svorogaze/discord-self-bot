@@ -20,10 +20,7 @@ class Mod(commands.Cog):
         :param how_many_messages_delete: number of messages to delete
         :type how_many_messages_delete: str
         """
-        global deleting
-        deleting = True
         await ctx.channel.purge(limit=int(how_many_messages_delete) + 1)
-        deleting = False
 
     @commands.command()
     async def add_bad_word(self, ctx, bad_word):
@@ -38,7 +35,6 @@ class Mod(commands.Cog):
                         embed=discord.Embed(description=f"Hey, we don't say {bad_word} here", color=WARNING_COLOR))
 
 
-deleting = False
 WARNING_COLOR = 0xe81031
 
 

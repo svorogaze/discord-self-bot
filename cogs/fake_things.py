@@ -2,10 +2,8 @@ from discord.ext import commands
 import discord
 import os
 import requests
-import googlesearch
 import random
 from bs4 import BeautifulSoup
-import re
 
 
 class Web(commands.Cog):
@@ -164,25 +162,6 @@ class Web(commands.Cog):
         snack_name = bs.find(name='h1', class_="snack-description")
 
         await ctx.send(snack_name.contents[0])
-
-    @commands.command()
-    async def google(self, ctx, *, search):
-        """
-        Get the first result of google search
-        """
-        result = googlesearch.search(search, num_results=1)
-        await ctx.send(result[0])
-
-    @commands.command()
-    async def youtube(self, ctx, *, search):
-        """
-        Get first video from youtube search
-        """
-        site = requests.get(f"https://www.youtube.com/results?search_query={'+'.join(search.split())}")
-
-        link_to_video = re.search('/watch\\?v=[\\w]+', site.text)
-
-        await ctx.send(f'First result of search on youtube \n https://www.youtube.com{link_to_video.group()}')
 
 
 def setup(bot):

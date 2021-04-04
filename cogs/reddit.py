@@ -1,42 +1,52 @@
 import discord
-import praw
 from discord.ext import commands
-from prawcore import NotFound
 from decouple import config
+import asyncpraw
+from asyncprawcore import NotFound
 
 
 class RedditBot(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.subreddit_list = []
+        self.checking = False
 
     @commands.command()
     async def check_reddit(self, ctx):
         """
         Check for new submissions for all subreddits in subreddit_list
-
-        You should restart discord-self-bot for stop checking, also you can't use other commands, while checking
         """
+        self.checking = True
         if self.subreddit_list:
-            subreddit = reddit.subreddit('+'.join(self.subreddit_list))
-            for submission in subreddit.stream.submissions(skip_existing=True):
-                await ctx.send(discord.Embed(image=submission.url))
+            subreddit = await reddit.subreddit('+'.join(self.subreddit_list))
+            async for submission in subreddit.stream.submissions(skip_existing=True):
+                if not self.checking:
+                    break
+                await ctx.send(f"New post in r/{submission.subreddit.display_name} \n {submission.url}")
 
     @commands.command()
-    async def add_subreddit(self, ctx, *, subredit):
+    async def stop_checking(self, ctx):
+        """
+        Stop checking reddit
+        """
+        self.checking = False
+        await ctx.send('successfully stopped the reddit checking')
+
+    @commands.command()
+    async def add_subreddit(self, ctx, *, subreddit):
         """
         Add new subreddit to subreddit_list
 
         Example of usage: !add_subreddit worldnews
 
-        :param subredit: name of subreddit we want to add to our subreddit_list
-        :type subredit: str
+        :param subreddit: name of subreddit we want to add to our subreddit_list
+        :type subreddit: str
         """
-        if is_exists(subredit) and subredit not in self.subreddit_list:
-            self.subreddit_list.append(subredit)
-            await ctx.send(embed=discord.Embed(description=f'Successful added r/{subredit} in list of subreddits'))
-        elif subredit in self.subreddit_list:
-            await ctx.send(embed=discord.Embed(description=f"r/{subredit} already in list of subreddits"))
+        if is_exists(subreddit) and subreddit not in self.subreddit_list:
+            self.subreddit_list.append(subreddit)
+            await ctx.send(embed=discord.Embed(description=f'Successful added r/{subreddit} in list of subreddits'))
+        elif subreddit in self.subreddit_list:
+            await ctx.send(embed=discord.Embed(description=f"r/{subreddit} already in list of subreddits"))
         else:
             await ctx.send(embed=discord.Embed(description="This subreddit doesn't exist"))
 
@@ -61,7 +71,7 @@ class RedditBot(commands.Cog):
         """
         Send embed with all subreddits in subreddit_list
         """
-        if self.subreddit_list:  # if subreddit list means if subbredit_list is not empty
+        if self.subreddit_list:  # if subreddit list means if subreddit_list is not empty
             await ctx.send(embed=discord.Embed(description=', '.join(self.subreddit_list)))
         else:
             await ctx.send(embed=discord.Embed(description='List of subreddits is empty'))
@@ -74,6 +84,15 @@ class RedditBot(commands.Cog):
         length = len(self.subreddit_list)
         self.subreddit_list.clear()
         await ctx.send(embed=discord.Embed(description=f'List of subreddits cleared, {length} subreddits deleted'))
+
+    @commands.command()
+    async def subreddit(self, ctx, *, search):
+        """
+        Get first subreddit from reddit search
+        """
+        async for subreddit in reddit.subreddits.search_by_name(search, exact=False):
+            await ctx.send(f'First result of subreddit \n https://www.reddit.com/r/{subreddit.display_name}')
+            break
 
 
 def is_exists(subreddit):
@@ -89,9 +108,9 @@ def setup(bot):
     bot.add_cog(RedditBot(bot))
 
 
-reddit = praw.Reddit(client_id=config('CLIENT_ID'),
-                     client_secret=config('CLIENT_SECRET'),
-                     password=config('REDDIT_PASSWORD'),
-                     user_agent=config('USER_AGENT'),
-                     username=config("REDDIT_USERNAME"))  # authentication for reddit, for more info see
+reddit = asyncpraw.Reddit(client_id=config('CLIENT_ID'),
+                          client_secret=config('CLIENT_SECRET'),
+                          password=config('REDDIT_PASSWORD'),
+                          user_agent=config('USER_AGENT'),
+                          username=config("REDDIT_USERNAME"))  # authentication for reddit, for more info see
 # https://praw.readthedocs.io/en/latest/getting_started/authentication.html
