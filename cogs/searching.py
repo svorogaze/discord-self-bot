@@ -3,7 +3,6 @@ import requests
 import googlesearch
 from bs4 import BeautifulSoup
 import re
-from .fake_things import create_bs
 
 
 class Search(commands.Cog):
@@ -43,3 +42,9 @@ class Search(commands.Cog):
 
 def setup(bot):
     bot.add_cog(Search(bot))
+
+
+def create_bs(link_to_site):
+    site = requests.get(link_to_site)
+    bs = BeautifulSoup(site.text, 'html.parser')
+    return bs

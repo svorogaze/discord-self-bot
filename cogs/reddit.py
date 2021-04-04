@@ -94,6 +94,14 @@ class RedditBot(commands.Cog):
             await ctx.send(f'First result of subreddit \n https://www.reddit.com/r/{subreddit.display_name}')
             break
 
+    @commands.command()
+    async def random_subreddit(self, ctx):
+        """
+        Get random subreddit
+        """
+        subreddit = await reddit.random_subreddit()
+        await ctx.send(f'https://www.reddit.com/r/{subreddit.display_name}')
+
 
 def is_exists(subreddit):
     exists = True
