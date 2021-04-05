@@ -86,7 +86,7 @@ class RedditBot(commands.Cog):
         await ctx.send(embed=discord.Embed(description=f'List of subreddits cleared, {length} subreddits deleted'))
 
     @commands.command()
-    async def subreddit(self, ctx, *, search):
+    async def subreddit(self, ctx, *, search='savedyouaclick'):
         """
         Get first subreddit from reddit search
         """

@@ -19,7 +19,7 @@ class Fun(commands.Cog):
         self.bot = bot
 
     @commands.command()
-    async def say(self, ctx, *, content):
+    async def say(self, ctx, *, content='Hello World!'):
         """
         Send embed message with content
 
@@ -36,7 +36,7 @@ class Fun(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command()
-    async def ping(self, ctx, *, ping_of_user):
+    async def ping(self, ctx, *, ping_of_user='test'):
         """
         Spam 10000 messages with ping_of_user
 
@@ -53,7 +53,7 @@ class Fun(commands.Cog):
             await ctx.send(string_of_pings)
 
     @commands.command()
-    async def math(self, ctx, *, expression):
+    async def math(self, ctx, *, expression='2 * 2'):
         """
         Evaluate math expression
 
@@ -107,7 +107,7 @@ class Fun(commands.Cog):
             sleep(1)
 
     @commands.command()
-    async def timer(self, ctx, seconds):
+    async def timer(self, ctx, seconds='100'):
         """
         Create message-timer and updates it
         """
@@ -149,7 +149,7 @@ class Fun(commands.Cog):
             os.remove('image.jpg')
 
     @commands.command()
-    async def translate(self, ctx, *, text):
+    async def translate(self, ctx, *, text='東京喰種'):
         """
         Translate word to english
         """

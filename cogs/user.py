@@ -38,7 +38,7 @@ class User(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command()
-    async def change_presence(self, ctx, *, presence):
+    async def change_presence(self, ctx, *, presence='test|test'):
         """
         Changes the client’s presence
 

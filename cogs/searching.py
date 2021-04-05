@@ -10,7 +10,7 @@ class Search(commands.Cog):
         self.bot = bot
 
     @commands.command()
-    async def google(self, ctx, *, search):
+    async def google(self, ctx, *, search='stack overflow'):
         """
         Get the first result of google search
         """
@@ -18,7 +18,7 @@ class Search(commands.Cog):
         await ctx.send(result[0])
 
     @commands.command()
-    async def youtube(self, ctx, *, search):
+    async def youtube(self, ctx, *, search='unravel'):
         """
         Get first video from youtube search
         """
@@ -29,7 +29,7 @@ class Search(commands.Cog):
         await ctx.send(f'First result of search on youtube \n https://www.youtube.com{link_to_video.group()}')
 
     @commands.command()
-    async def github(self, ctx, *, search):
+    async def github(self, ctx, *, search='svorogaze'):
         """
         Get first repo from search
         """

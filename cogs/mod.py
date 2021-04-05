@@ -8,7 +8,7 @@ class Mod(commands.Cog):
         self.list_of_bad_words = []
 
     @commands.command()
-    async def delete(self, ctx, how_many_messages_delete):
+    async def delete(self, ctx, how_many_messages_delete='100'):
         """
         Delete messages from ctx.channel
 
@@ -23,7 +23,7 @@ class Mod(commands.Cog):
         await ctx.channel.purge(limit=int(how_many_messages_delete) + 1)
 
     @commands.command()
-    async def add_bad_word(self, ctx, bad_word):
+    async def add_bad_word(self, ctx, bad_word='bad'):
         self.list_of_bad_words.append(bad_word)
 
     @commands.Cog.listener()
