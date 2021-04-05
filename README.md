@@ -44,3 +44,4 @@ You can be banned for using self-bot, so use at your own risk.
  * youtube
  * subreddit
  * random_subreddit
+ * distance
