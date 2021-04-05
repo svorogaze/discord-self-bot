@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-import cv2
+#import cv2
 import requests
 import random
 from time import sleep
@@ -128,26 +128,25 @@ class Fun(commands.Cog):
 
         await ctx.message.delete()
 
-    @commands.command()
-    async def gray(self, ctx):
+    #@commands.command()
+    #async def gray(self, ctx):
         """
         Download image, grayscale and send it in ctx.channel
         """
-        message = ctx.message
-        if len(message.attachments) == 1:
-            image = requests.get(message.attachments[0].url)
+        #message = ctx.message
+        #if len(message.attachments) == 1:
+            #image = requests.get(message.attachments[0].url)
 
-            file = open('image.jpg', 'wb')
-            file.write(image.content)
-            file.close()
+            #file = open('image.jpg', 'wb')
+            #file.write(image.content)
+            #file.close()
 
-            gray_image = cv2.imread('image.jpg', cv2.IMREAD_GRAYSCALE)
-            cv2.imwrite('image.jpg', gray_image)
+            #gray_image = cv2.imread('image.jpg', cv2.IMREAD_GRAYSCALE)
+            #cv2.imwrite('image.jpg', gray_image)
 
-            await ctx.send(file=discord.File('image.jpg'))
+            #await ctx.send(file=discord.File('image.jpg'))
 
-            os.remove('image.jpg')
-
+            #os.remove('image.jpg')
     @commands.command()
     async def translate(self, ctx, *, text='東京喰種'):
         """
