@@ -24,6 +24,9 @@ class Mod(commands.Cog):
 
     @commands.command()
     async def add_bad_word(self, ctx, bad_word='bad'):
+        """
+        Example of usage: !add_bad_word bruh
+        """
         self.list_of_bad_words.append(bad_word)
 
     @commands.Cog.listener()

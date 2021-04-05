@@ -89,6 +89,7 @@ class RedditBot(commands.Cog):
     async def subreddit(self, ctx, *, search='savedyouaclick'):
         """
         Get first subreddit from reddit search
+        Example of usage: !subreddit savedyouaclick
         """
         async for subreddit in reddit.subreddits.search_by_name(search, exact=False):
             await ctx.send(f'First result of subreddit \n https://www.reddit.com/r/{subreddit.display_name}')

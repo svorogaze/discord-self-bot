@@ -110,6 +110,7 @@ class Fun(commands.Cog):
     async def timer(self, ctx, seconds='100'):
         """
         Create message-timer and updates it
+        Example of usage: !timer 100
         """
 
         seconds = int(seconds)
@@ -156,6 +157,18 @@ class Fun(commands.Cog):
         translator = googletrans.Translator()
         result = translator.translate(text=text)
         await ctx.send(embed=discord.Embed(description=f'{text} ({result.src}) --> {result.text} ({result.dest})'))
+
+    @commands.command()
+    async def distance(self, ctx, x1, y1, x2, y2):
+        """
+        Get distance between two points (x1,y1) and (x2,y2)
+        Example of usage !distance 2 2 5 6
+        """
+        x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
+        a = abs(x2) - abs(x1)
+        b = abs(y2) - abs(y1)
+        distance = (a ** 2 + b ** 2) ** 0.5
+        await ctx.send(f'Shortest distance between ({x1}, {y1}) and ({x2}, {y2})')
 
 
 def setup(bot):

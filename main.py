@@ -6,7 +6,6 @@ discord_token = config('DISCORD_TOKEN')  # insert your discord token here
 
 self_bot = commands.Bot(command_prefix='!', self_bot=True)
 
-
 for filename in os.listdir('./cogs'):  # get all cogs in cogs
     if filename.endswith('.py'):
         self_bot.load_extension(f'cogs.{filename[:-3]}')

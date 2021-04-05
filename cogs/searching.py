@@ -13,6 +13,7 @@ class Search(commands.Cog):
     async def google(self, ctx, *, search='stack overflow'):
         """
         Get the first result of google search
+        Example of usage: !google test
         """
         result = googlesearch.search(search, num_results=1)
         await ctx.send(result[0])
@@ -21,6 +22,7 @@ class Search(commands.Cog):
     async def youtube(self, ctx, *, search='unravel'):
         """
         Get first video from youtube search
+        Example of usage: !youtube test
         """
         site = requests.get(f"https://www.youtube.com/results?search_query={search.replace(' ', '+')}")
 
@@ -32,6 +34,7 @@ class Search(commands.Cog):
     async def github(self, ctx, *, search='svorogaze'):
         """
         Get first repo from search
+        Example of usage: !github discord.py
         """
         bs = create_bs(f"https://github.com/search?q={search.replace(' ', '+')}")
 
