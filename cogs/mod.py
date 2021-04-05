@@ -23,11 +23,23 @@ class Mod(commands.Cog):
         await ctx.channel.purge(limit=int(how_many_messages_delete) + 1)
 
     @commands.command()
-    async def add_bad_word(self, ctx, bad_word='bad'):
+    async def add_bad_word(self, ctx, *, bad_word='bad'):
         """
         Example of usage: !add_bad_word bruh
         """
         self.list_of_bad_words.append(bad_word)
+        await ctx.send(embed=discord.Embed(description='Successfully added bad word'))
+
+    @commands.command()
+    async def remove_bad_word(self, ctx, *, bad_word):
+        """
+        Example of usage: !remove_bad_word bruh
+        """
+        if bad_word in self.list_of_bad_words:
+            self.list_of_bad_words.remove(bad_word)
+            await ctx.send(embed=discord.Embed(description='Successfully removed bad word'))
+        else:
+            await ctx.send(embed=discord.Embed(description=f'{bad_word} not in list of bad words, bruh',color=WARNING_COLOR))
 
     @commands.Cog.listener()
     async def on_message(self, message):

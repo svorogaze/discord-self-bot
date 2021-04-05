@@ -163,6 +163,17 @@ class Web(commands.Cog):
 
         await ctx.send(snack_name.contents[0])
 
+    @commands.command()
+    async def dad_joke(self, ctx):
+        """
+        Get fake dad joke from https://icanhazdadjoke.com/
+        """
+        bs = create_bs('https://icanhazdadjoke.com/')
+
+        dad_joke = bs.find(name='p', class_='subtitle').contents[0]
+
+        await ctx.send(dad_joke)
+
 
 def setup(bot):
     bot.add_cog(Web(bot))
