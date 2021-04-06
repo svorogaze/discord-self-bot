@@ -46,9 +46,9 @@ class Web(commands.Cog):
         id is random number from 0 to 100000
         """
 
-        image = requests.get(f'https://www.thiswaifudoesnotexist.net/example-{random.randint(0, 100000)}.jpg')
+        image_link = f'https://www.thiswaifudoesnotexist.net/example-{random.randint(0, 100000)}.jpg'
 
-        await save_send_and_delete(image=image, file_name='waifu', ctx=ctx)
+        await ctx.send(image_link)
 
     @commands.command()
     async def art(self, ctx):
@@ -80,10 +80,9 @@ class Web(commands.Cog):
         """
         Get fake eye from https://thiseyedoesnotexist.com
         """
-        image = requests.get(
-            f"https://thiseyedoesnotexist.com/{get_static_link_to_img('https://thiseyedoesnotexist.com/random')}")
+        image_link = f"https://thiseyedoesnotexist.com/{get_static_link_to_img('https://thiseyedoesnotexist.com/random')}"
 
-        await save_send_and_delete(image=image, file_name='eye', ctx=ctx)
+        await ctx.send(image_link)
 
     @commands.command()
     async def mp(self, ctx):
@@ -91,19 +90,18 @@ class Web(commands.Cog):
         Get fake eye from https://vole.wtf/this-mp-does-not-exist/
         This site has hardcoded 649 images into html, bruh
         """
-        image = requests.get(f'https://vole.wtf/this-mp-does-not-exist/mp/mp00{random.randint(0, 649)}.jpg')
+        image_link = f'https://vole.wtf/this-mp-does-not-exist/mp/mp00{random.randint(0, 649)}.jpg'
 
-        await save_send_and_delete(image=image, file_name='mp', ctx=ctx)
+        await ctx.send(image_link)
 
     @commands.command()
     async def city(self, ctx):
         """
         Get fake city from http://thiscitydoesnotexist.com/
         """
-        image = requests.get(
-            f"http://thiscitydoesnotexist.com/{get_static_link_to_img('http://thiscitydoesnotexist.com/')}")
+        image_link = f"http://thiscitydoesnotexist.com/{get_static_link_to_img('http://thiscitydoesnotexist.com/')}"
 
-        await save_send_and_delete(image=image, file_name='city', ctx=ctx)
+        await ctx.send(image_link)
 
     @commands.command()
     async def sky(self, ctx):
@@ -113,9 +111,8 @@ class Web(commands.Cog):
         """
         image_link = f"https://firebasestorage.googleapis.com/v0/b/thisnightskydoesnotexist.appspot.com/o/images%2Fseed" \
                      f"{'{:0>4d}'.format(random.randint(1, 5000))}.jpg?alt=media"
-        image = requests.get(image_link)
 
-        await save_send_and_delete(image=image, file_name='sky', ctx=ctx)
+        await ctx.send(image_link)
 
     @commands.command()
     async def vessel(self, ctx):
@@ -124,9 +121,8 @@ class Web(commands.Cog):
         Link to image is like this https://thisvesseldoesnotexist.s3-us-west-2.amazonaws.com/public/v2/fakes/0009999.jpg
         """
         image_link = f"https://thisvesseldoesnotexist.s3-us-west-2.amazonaws.com/public/v2/fakes/{'{:0>7d}'.format(random.randint(1, 20000))}.jpg"
-        image = requests.get(image_link)
 
-        await save_send_and_delete(image=image, file_name='vessel', ctx=ctx)
+        await ctx.send(image_link)
 
     @commands.command()
     async def startup(self, ctx):
@@ -149,8 +145,8 @@ class Web(commands.Cog):
         """
         Get a fucked up homer from https://www.thisfuckeduphomerdoesnotexist.com/
         """
-        image = requests.get(get_static_link_to_img('https://www.thisfuckeduphomerdoesnotexist.com/'))
-        await save_send_and_delete(image=image, file_name='fu_homer', ctx=ctx)
+        image_link = get_static_link_to_img('https://www.thisfuckeduphomerdoesnotexist.com/')
+        await ctx.send(image_link)
 
     @commands.command()
     async def snack(self, ctx):
@@ -174,14 +170,31 @@ class Web(commands.Cog):
 
         await ctx.send(dad_joke)
 
+    @commands.command()
+    async def insp_img(self, ctx):
+        """
+        Get fake inspiration image from https://inspirobot.me/api?generate=true
+        """
+        image_link = requests.get('https://inspirobot.me/api?generate=true').text
+
+        await ctx.send(image_link)
+
+    @commands.command()
+    async def pizza(self, ctx):
+        """
+        Get fake pizza from https://boredhumans.com/pizza.php
+        """
+        image_link = f'https://boredhumans.b-cdn.net/pizza/{random.randint(1, 6000)}.jpg'
+
+        await ctx.send(image_link)
+
 
 def setup(bot):
     bot.add_cog(Web(bot))
 
 
 def get_static_link_to_img(site_name):
-    site = requests.get(site_name)
-    bs = BeautifulSoup(site.text, 'html.parser')
+    bs = create_bs(site_name)
 
     static_link_to_image = bs.find('img')['src']
     return static_link_to_image

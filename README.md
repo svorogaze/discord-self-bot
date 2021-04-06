@@ -45,3 +45,7 @@ You can be banned for using self-bot, so use at your own risk.
  * subreddit
  * random_subreddit
  * distance
+ * remove_bad_word
+ * dad_joke
+ * insp_img
+ * pizza
