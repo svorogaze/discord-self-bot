@@ -188,6 +188,24 @@ class Web(commands.Cog):
 
         await ctx.send(image_link)
 
+    @commands.command()
+    async def blended_photo(self, ctx):
+        """
+        Get blended photo from https://boredhumans.com/photo_blender.php
+        """
+        image_link = f'https://boredhumans.b-cdn.net/photo_blender/{random.randint(1, 999)}.jpg'
+
+        await ctx.send(image_link)
+
+    @commands.command()
+    async def dream(self, ctx):
+        """
+        Get a fake photo of dream from https://boredhumans.com/dreams.php
+        """
+        image_link = f'https://boredhumans.b-cdn.net/dreams/{random.randint(1, 125)}.jpg'
+
+        await ctx.send(image_link)
+
 
 def setup(bot):
     bot.add_cog(Web(bot))
