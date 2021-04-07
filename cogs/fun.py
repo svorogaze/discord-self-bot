@@ -168,7 +168,7 @@ class Fun(commands.Cog):
         a = abs(x2) - abs(x1)
         b = abs(y2) - abs(y1)
         distance = (a ** 2 + b ** 2) ** 0.5
-        await ctx.send(f'Shortest distance between ({x1}, {y1}) and ({x2}, {y2})')
+        await ctx.send(f'Shortest distance between ({x1}, {y1}) and ({x2}, {y2}) is {distance}')
 
 
 def setup(bot):
