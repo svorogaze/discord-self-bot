@@ -3,6 +3,7 @@ import requests
 import googlesearch
 from bs4 import BeautifulSoup
 import re
+import discord
 
 
 class Search(commands.Cog):
@@ -41,6 +42,22 @@ class Search(commands.Cog):
         first_repo = bs.find('a', class_='v-align-middle')
 
         await ctx.send(f"First result of search on github \n https://github.com{first_repo['href']}")
+
+    @commands.command()
+    async def covid(self, ctx):
+        """
+        Get stats of covid for US
+        """
+        bs = create_bs('https://covidusa.net/')
+
+        total_cases = bs.find('div', class_='stat-value display-4 text-warning').contents[0]
+        total_deaths = bs.find('div', class_='stat-value display-4 text-danger').contents[0]
+
+        embed = discord.Embed()
+        embed.add_field(name='Total cases in US', value=total_cases, inline=False)
+        embed.add_field(name='Total deaths in US', value=total_deaths, inline=False)
+
+        await ctx.send(embed=embed)
 
 
 def setup(bot):
