@@ -4,7 +4,8 @@ import googlesearch
 from bs4 import BeautifulSoup
 import re
 import discord
-
+from decouple import config
+from random import randint
 
 class Search(commands.Cog):
     def __init__(self, bot):
@@ -58,7 +59,19 @@ class Search(commands.Cog):
         embed.add_field(name='Total deaths in US', value=total_deaths, inline=False)
 
         await ctx.send(embed=embed)
+   
+    @commands.command()
+    async def gif_search(self, ctx, *, search='cat'):
+        """
+        Search giphy for gifs and send one of them
+        """
+        url = f"http://api.giphy.com/v1/gifs/search?q={search.replace(' ', '+')}&api_key={config('GIPHY_API_KEY')}"
+        response = requests.get(url)
 
+        list_of_gifs = response.json()['data']
+        random_gif = list_of_gifs[randint(0, len(list_of_gifs) - 1)]
+
+        await ctx.send(random_gif['url'])
 
 def setup(bot):
     bot.add_cog(Search(bot))
