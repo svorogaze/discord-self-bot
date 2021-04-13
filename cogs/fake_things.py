@@ -207,15 +207,6 @@ class Web(commands.Cog):
 
         await ctx.send(image_link)
 
-    @commands.command()
-    async def scp(self, ctx):
-        """
-        Get link to random scp from http://www.scpwiki.com
-        """
-        link_to_scp = f"http://www.scpwiki.com/scp-{'{:0>3d}'.format(random.randint(1, 5199))}"
-
-        await ctx.send(link_to_scp)
-
 
 def setup(bot):
     bot.add_cog(Web(bot))

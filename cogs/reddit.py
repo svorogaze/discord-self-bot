@@ -121,5 +121,5 @@ reddit = asyncpraw.Reddit(client_id=config('CLIENT_ID'),
                           client_secret=config('CLIENT_SECRET'),
                           password=config('REDDIT_PASSWORD'),
                           user_agent=config('USER_AGENT'),
-                          username=config("REDDIT_USERNAME"))  # authentication for reddit, for more info see
+                          username=config('REDDIT_USERNAME'))  # authentication for reddit, for more info see
 # https://praw.readthedocs.io/en/latest/getting_started/authentication.html

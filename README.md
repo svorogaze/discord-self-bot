@@ -51,3 +51,8 @@ You can be banned for using self-bot, so use at your own risk.
  * pizza
  * dream
  * blended_photo
+ * scp
+ * covid
+ * gif_search
+ * advice
+ * cat_fact

@@ -73,6 +73,7 @@ class Search(commands.Cog):
 
         await ctx.send(random_gif['url'])
 
+
 def setup(bot):
     bot.add_cog(Search(bot))
 
