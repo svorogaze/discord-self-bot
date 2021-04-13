@@ -146,7 +146,7 @@ class Web(commands.Cog):
         Get a fucked up homer from https://www.thisfuckeduphomerdoesnotexist.com/
         """
         image_link = get_static_link_to_img('https://www.thisfuckeduphomerdoesnotexist.com/')
-        
+
         await ctx.send(image_link)
 
     @commands.command()

@@ -56,3 +56,4 @@ You can be banned for using self-bot, so use at your own risk.
  * gif_search
  * advice
  * cat_fact
+ * useless_fact

@@ -39,7 +39,7 @@ class Mod(commands.Cog):
             self.list_of_bad_words.remove(bad_word)
             await ctx.send(embed=discord.Embed(description='Successfully removed bad word'))
         else:
-            await ctx.send(embed=discord.Embed(description=f'{bad_word} not in list of bad words, bruh',color=WARNING_COLOR))
+            await ctx.send(embed=discord.Embed(description=f'{bad_word} not in list of bad words, bruh', color=WARNING_COLOR))
 
     @commands.Cog.listener()
     async def on_message(self, message):

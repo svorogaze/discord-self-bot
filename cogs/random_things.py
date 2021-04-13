@@ -33,6 +33,14 @@ class RandomThings(commands.Cog):
         json = requests.get('https://meowfacts.herokuapp.com/').json()
         await ctx.send(embed=discord.Embed(description=json['data'][0], title='random cat fact'))
 
+    @commands.command()
+    async def useless_fact(self, ctx):
+        """
+        Get random useless fact from https://uselessfacts.jsph.pl
+        """
+        json = requests.get('https://uselessfacts.jsph.pl/random.json?language=en').json()
+        await ctx.send(embed=discord.Embed(description=json['text'], title='random useless fact'))
+
 
 def setup(bot):
     bot.add_cog(RandomThings(bot))

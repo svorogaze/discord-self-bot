@@ -7,6 +7,7 @@ import discord
 from decouple import config
 from random import randint
 
+
 class Search(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -59,7 +60,7 @@ class Search(commands.Cog):
         embed.add_field(name='Total deaths in US', value=total_deaths, inline=False)
 
         await ctx.send(embed=embed)
-   
+
     @commands.command()
     async def gif_search(self, ctx, *, search='cat'):
         """
