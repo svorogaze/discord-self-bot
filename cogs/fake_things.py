@@ -207,6 +207,14 @@ class Web(commands.Cog):
 
         await ctx.send(image_link)
 
+    @commands.command()
+    async def Bill(self, ctx):
+        """
+        Get be like Bill meme from https://belikebill.ga/billgen-API.php?default=1
+        """
+        image = requests.get('https://belikebill.ga/billgen-API.php?default=1')
+        await save_send_and_delete(image=image, file_name='Bill', ctx=ctx)
+
 
 def setup(bot):
     bot.add_cog(Web(bot))

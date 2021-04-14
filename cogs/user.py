@@ -17,7 +17,7 @@ class User(commands.Cog):
         :type message: discord.Message
         """
         if message.author == self.bot.user and message.content and message.content[0] != '!':
-            await message.edit(content=f'{message.content} \n{self.end_of_message}')
+            await message.edit(content=f'{message.content} {self.end_of_message}')
 
     @commands.command()
     async def latency(self, ctx):
