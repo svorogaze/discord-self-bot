@@ -74,6 +74,50 @@ class Search(commands.Cog):
 
         await ctx.send(random_gif['url'])
 
+    @commands.command()
+    async def steam(self, ctx, id):
+        """
+        Get stats for given steam id 64
+        """
+        dict_of_personastates = {0: 'offline', 1: 'online', 2: 'busy', 3: 'away', 4: 'snooze', 5: 'looking to trade',
+                                 6: 'looking to play'}
+
+        json = requests.get(
+            f"http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={config('STEAM_API_KEY')}&steamids={id}").json()
+        data = json['response']['players'][0]
+
+        embed = discord.Embed()
+        embed.set_image(url=data['avatarfull'])
+        embed.add_field(name='nickname', value=data['personaname'], inline=False)
+        embed.add_field(name='real name', value=data.get('realname', 'not given'), inline=False)
+        embed.add_field(name='status', value=dict_of_personastates[data['profilestate']], inline=False)
+        embed.add_field(name='profile created (in unix)', value=data.get('timecreated', 'not given'), inline=False)
+        embed.add_field(name='last logoff (in unix)', value=data.get('lastlogoff', 'not given'), inline=False)
+        embed.add_field(name='country code', value=data.get('loccountrycode', 'not given'), inline=False)
+        embed.add_field(name='profile url', value=data['profileurl'], inline=False)
+
+        await ctx.send(embed=embed)
+
+    @commands.command()
+    async def csgo(self, ctx, id):
+        """
+        Get stats in csgo for given steam id 64
+        Profile with given id must be public
+        """
+        json = requests.get(f"http://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=730&key={config('STEAM_API_KEY')}&steamid={id}").json()
+        stats = json['playerstats']['stats']
+
+        embed = discord.Embed()
+        for dict_of_stat in stats:
+            stat_name, stat_value = dict_of_stat['name'], dict_of_stat['value']
+            stat_value = str(stat_value)
+            if len(embed) + len(stat_name) + len(stat_value) >= 2000:
+                await ctx.send(embed=embed)
+                embed = discord.Embed()
+            embed.add_field(name=stat_name, value=stat_value, inline=False)
+
+        await ctx.send(embed=embed)
+
 
 def setup(bot):
     bot.add_cog(Search(bot))
