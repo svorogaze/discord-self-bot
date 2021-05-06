@@ -17,6 +17,7 @@ class Logger(commands.Cog):
         :param message: new message
         :type message: discord.Message
         """
+        await message.add_reaction(":gorilla:") # just for fun, delete if annoying
         if message.channel in self.log_channels:
             self.log_file.write(
                 f'server: {message.guild}, channel: {message.channel}, author: {message.author},time: {message.created_at}, message:\n{message.content}\n')
