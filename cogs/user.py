@@ -1,6 +1,7 @@
 from discord.ext import commands
 import discord
 import platform
+from time import sleep
 
 
 class User(commands.Cog):
@@ -57,6 +58,28 @@ class User(commands.Cog):
 
         await self.bot.change_presence(activity=activity)
         await ctx.send(embed=discord.Embed(description='presence successfully changed'))
+
+    @commands.command()
+    async def animated_presence(self, ctx, *, presence='test|test'):
+        """
+       Changes the client’s presence
+
+        Example of usage: !animated_presence test|test
+
+        :param presence: string, which contains presence and details split by |
+        :type presence: str
+        """
+        array_of_presence_and_details = presence.split('|')
+        name = array_of_presence_and_details[0] + ' '
+        details = ''
+        if len(array_of_presence_and_details) == 2:
+            details = array_of_presence_and_details[1]
+
+        while True:
+            activity = discord.Activity(name=current_name, type=discord.ActivityType.playing, details=details)
+            current_name = name[1:] + name[0]
+            await self.bot.change_presence(activity=activity)
+            sleep(1)
 
     @commands.command()
     async def add_ending(self, ctx, *, message_ending=''):
