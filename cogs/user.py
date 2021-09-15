@@ -78,8 +78,8 @@ class User(commands.Cog):
         while True:
             activity = discord.Activity(name=name, type=discord.ActivityType.playing, details=details)
             name = name[1:] + name[0]
-            await self.bot.change_presence(activity=activity)
-            await ctx.send(embed=discord.Embed(description='presence successfully changed'))
+            self.bot.change_presence(activity=activity)
+            ctx.send(embed=discord.Embed(description='presence successfully changed'))
             sleep(1)
 
     @commands.command()
