@@ -76,8 +76,8 @@ class User(commands.Cog):
             details = array_of_presence_and_details[1]
 
         while True:
-            activity = discord.Activity(name=current_name, type=discord.ActivityType.playing, details=details)
-            current_name = name[1:] + name[0]
+            activity = discord.Activity(name=name, type=discord.ActivityType.playing, details=details)
+            name = name[1:] + name[0]
             await self.bot.change_presence(activity=activity)
             sleep(1)
 
