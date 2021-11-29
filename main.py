@@ -20,4 +20,4 @@ async def on_ready():
     print("Launched a bot")
 
 
-self_bot.run(discord_token, bot=True)
+self_bot.run(discord_token, bot=False)
