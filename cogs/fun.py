@@ -53,6 +53,12 @@ class Fun(commands.Cog):
             await ctx.send(string_of_pings)
 
     @commands.command()
+    async def spam_work(self, ctx):
+        for i in range(10000):
+            await ctx.send('!!work')
+            sleep(600)
+         
+    @commands.command()
     async def math(self, ctx, *, expression='2 * 2'):
         """
         Evaluate math expression
