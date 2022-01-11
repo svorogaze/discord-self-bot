@@ -56,7 +56,7 @@ class Fun(commands.Cog):
     async def spam_work(self, ctx):
         for i in range(10000):
             await ctx.send('!!work')
-            sleep(600)
+            sleep(1800)
          
     @commands.command()
     async def math(self, ctx, *, expression='2 * 2'):
