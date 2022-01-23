@@ -57,7 +57,13 @@ class Fun(commands.Cog):
         for i in range(10000):
             await ctx.send('!!work')
             sleep(1800)
-    
+    @commands.command()
+    async def farm(ctx):
+        while True:
+            ctx.send('!!shop 2')
+            ctx.send('!!shop 3')
+            ctx.send('!!case')
+            sleep(20)
     @commands.command()
     async def spam_ruletka(self, ctx):
         for i in range(10000):
